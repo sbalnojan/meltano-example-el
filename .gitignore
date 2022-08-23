@@ -1,3 +1,7 @@
+# Meltano specific stuff
+new_project/.meltano/*
+postgres-data/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
