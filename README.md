@@ -1,4 +1,4 @@
-# Meltano Example Projects: EL (Jaffle Shop) Sandbox
+# Meltano Example Projects: Extract & Load (EL) (Jaffle Shop) Sandbox
 This project extends the ```jaffle shop``` sandbox project created by [DbtLabs](https://github.com/dbt-labs/jaffle_shop) for the data built tool ```dbt```. This meltano project sources three CSV files from AWS S3 and puts them into three separate tables inside a Postgres database.
 
 ## What is this repo?
@@ -25,3 +25,7 @@ Using this repository is really easy as it all runs inside docker via batect.
 
 Just have the batect reqs ready and run ```./batect --list-tasks ```, 
 then go read & shell yourself through the list of things.
+
+```meltano install```
+
+```meltano run tap-s3-csv target-postgres```

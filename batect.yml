@@ -1,6 +1,6 @@
 containers:
   build-env:
-    image: meltano/meltano:v2.4.0-python3.10
+    image: meltano/meltano:v2.4.0-python3.8
     working_directory: /new_project
     run_as_current_user:
       enabled: true
@@ -9,9 +9,9 @@ containers:
       - local: ./new_project
         container: /new_project
         options: cached
-      - local: ./source
-        container: /new_project/source
-        options: cached
+   #   - local: ./source
+   #     container: /new_project/source
+   #     options: cached
   
   moto:
     image: motoserver/moto:4.0.0
@@ -46,7 +46,7 @@ tasks:
       command: --version
 
   launch_mock:
-    description: Launch the AWS S3 mock (moto), its UI, fill it with CSVs and initiate the postgres.
+    description: Launch the AWS S3 mock (moto), its UI, fill it with CSVs and initiate the postgres. Mock UI can be accessed at http://127.0.0.1:5005/moto-api.
     group: Utility tasks
     dependencies:
       - moto
@@ -54,3 +54,17 @@ tasks:
     run:
       container: aws_cli
       entrypoint: sh -c '/csvs/stuff.sh'
+  
+  melt:
+    description: Open a shell in our cool build env to debug stuff. Make sure to launch_mock in a separate terminal tab!
+    group: Utility tasks
+    run:
+      container: build-env
+      entrypoint: sh
+
+  clean:
+    description: Delete meltano taps and so on to play around with the installation of plugins locally.
+    group: Utility tasks
+    run:
+      container: build-env
+      entrypoint: sh -c 'rm -rf ./meltano/*'

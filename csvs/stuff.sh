@@ -19,4 +19,6 @@ aws s3api put-object --bucket test --key raw_customers.csv --body ../csvs/raw_cu
 # aws s3api list-buckets --endpoint-url http://localhost:5005
 
 # keep awake and let users do more if needed...
+
+echo "leave this terminal open and open another one to continue!"
 sh
