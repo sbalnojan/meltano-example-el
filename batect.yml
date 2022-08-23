@@ -1,0 +1,23 @@
+containers:
+  build-env:
+    image: meltano/meltano:v2.4.0-python3.10
+    working_directory: /new_project
+    run_as_current_user:
+      enabled: true
+      home_directory: /home/container-user
+    volumes:
+      - local: ./new_project
+        container: /new_project
+        options: cached
+      - local: ./source
+        container: /new_project/source
+        options: cached
+
+tasks:
+  ## Utility tasks
+  version:
+    description: Display version 
+    group: Utility tasks
+    run:
+      container: build-env
+      command: --version
