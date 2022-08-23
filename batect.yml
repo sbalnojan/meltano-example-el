@@ -12,6 +12,20 @@ containers:
       - local: ./source
         container: /new_project/source
         options: cached
+  
+  moto:
+    image: motoserver/moto:4.0.0
+    ports:
+      - local: 5005
+        container: 5000
+  
+  aws_cli:
+    image: amazon/aws-cli:2.7.25
+    volumes:
+      - local: ./csvs
+        container: /csvs
+        options: cached
+
 
 tasks:
   ## Utility tasks
@@ -21,3 +35,12 @@ tasks:
     run:
       container: build-env
       command: --version
+
+  launch_mock:
+    description: Launch the AWS S3 mock (moto), its UI, fill it with CSVs and initiate the postgres.
+    group: Utility tasks
+    dependencies:
+      - moto
+    run:
+      container: aws_cli
+      entrypoint: sh -c '/csvs/stuff.sh'
