@@ -26,6 +26,15 @@ containers:
         container: /csvs
         options: cached
 
+  postgres:
+    image: postgres:13.4-bullseye
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: demo
+    ports:
+      - local: 5432
+        container: 5432
 
 tasks:
   ## Utility tasks
@@ -41,6 +50,7 @@ tasks:
     group: Utility tasks
     dependencies:
       - moto
+      - postgres
     run:
       container: aws_cli
       entrypoint: sh -c '/csvs/stuff.sh'
