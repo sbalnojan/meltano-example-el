@@ -39,7 +39,7 @@ containers:
 tasks:
   ## Utility tasks
   version:
-    description: Display version 
+    description: Display version. Run this to check docker + meltano work. 
     group: Utility tasks
     run:
       container: build-env
@@ -47,7 +47,7 @@ tasks:
 
   launch_mock:
     description: Launch the AWS S3 mock (moto), its UI, fill it with CSVs and initiate the postgres. Mock UI can be accessed at http://127.0.0.1:5005/moto-api.
-    group: Utility tasks
+    group: Do these tasks
     dependencies:
       - moto
       - postgres
@@ -56,8 +56,8 @@ tasks:
       entrypoint: sh -c '/csvs/stuff.sh'
   
   melt:
-    description: Open a shell in our cool build env to debug stuff. Make sure to launch_mock in a separate terminal tab!
-    group: Utility tasks
+    description: Open a shell in our cool meltano env to run some stuff. Make sure to launch_mock in a separate terminal tab!
+    group: Do these tasks
     run:
       container: build-env
       entrypoint: sh
