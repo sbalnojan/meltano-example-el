@@ -1,6 +1,8 @@
 # Meltano Example Projects: Extract & Load (EL) (Jaffle Shop) Sandbox
 This project extends the ```jaffle shop``` sandbox project created by [DbtLabs](https://github.com/dbt-labs/jaffle_shop) for the data built tool ```dbt```. This meltano project sources three CSV files from AWS S3 and puts them into three separate tables inside a Postgres database.
 
+![EL Meltano Run](Meltano_EL.gif)
+
 ## What is this repo?
 What this repo is:
 
@@ -21,11 +23,48 @@ the loader ```target-postgres```.
 ![EL Meltano Diagram](el_meltano_diagram.jpg)
 
 ## How to run this project?
-Using this repository is really easy as it all runs inside docker via batect.
+Using this repository is really easy as it all runs inside docker via batect. 
 
-Just have the batect reqs ready and run ```./batect --list-tasks ```, 
-then go read & shell yourself through the list of things.
+Run  ```./batect --list-tasks ``` to see the list of commands.
 
-```meltano install```
+1. Launch the mock endpoints in a separate terminal window ```./batect launch_mock````
+2. With batect: Launch meltano with batect via ```batect melt````
+3. OR install meltano with ```pip install meltano```
 
-```meltano run tap-s3-csv target-postgres```
+Then run ```meltano install``` to install the two plugins, the S3 extractor and the PostgreSQL loader as specified
+in the [meltano.yml](new_project/meltano.yml):
+
+```yaml
+...
+plugins:
+  extractors:
+  - name: tap-s3-csv
+    variant: transferwise
+    pip_url: pipelinewise-tap-s3-csv
+    config:
+      bucket: test
+      tables:
+        - search_prefix: ""
+          search_pattern: "raw_customers.csv"
+          table_name: "raw_customers"
+          key_properties: ["id"]
+          delimiter: ","
+      start_date: 2000-01-01T00:00:00Z
+      aws_endpoint_url: http://host.docker.internal:5005
+      aws_access_key_id: s
+      aws_secret_access_key: s
+      aws_default_region: us-east-1
+
+  loaders:
+  - name: target-postgres
+    variant: transferwise
+    pip_url: pipelinewise-target-postgres
+    config:
+      host: host.docker.internal
+      port: 5432
+      user: admin
+      password: password
+      dbname: demo
+```
+
+Finally, run ```meltano run tap-s3-csv target-postgres``` to execute the extraction and loading. Check inside the local database afterwards to see that your data has arrived.
