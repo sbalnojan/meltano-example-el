@@ -4,13 +4,13 @@ This project extends the ```jaffle shop``` sandbox project created by [DbtLabs](
 ![EL Meltano Run](Meltano_EL.gif)
 
 ## What is this repo?
-What this repo is:
+_What this repo is:_
 
 A self-contained sandbox meltano project. Useful for testing out scripts, yaml configurations and understanding some of the core meltano concepts.
 
-What this repo is not:
-This repo is not a tutorial or a walk-through. It contains some bad practices. To make it self-contained, it contains a AWS S3 mock, as well
-as a dockerized Postgres database. 
+_What this repo is not:_
+
+This repo is not a tutorial or an extensive walk-through. It contains some bad practices. To make it self-contained, it contains a AWS S3 mock, as well as a dockerized Postgres database. 
 
 We're focusing on simplicity here!
 
@@ -23,16 +23,29 @@ the loader ```target-postgres```.
 ![EL Meltano Diagram](el_meltano_diagram.jpg)
 
 ## How to run this project?
-Using this repository is really easy as it all runs inside docker via batect. 
+Using this repository is really easy as it all runs inside docker via [batect](https://batect.dev/), a light-weight wrapper around docker. 
+
+### Run with batect
+We [batect](https://batect.dev/) because it makes it possible for you to run this project without even installing meltano. [Batect requires Java & Docker to be installed to run](https://batect.dev/docs/getting-started/requirements). 
+
+The repository has a few configured "batect tasks" which essentially all spin up docker or docker-compose for you and do things inside these containers.
 
 Run  ```./batect --list-tasks ``` to see the list of commands.
 
-1. Launch the mock endpoints in a separate terminal window ```./batect launch_mock````
-2. With batect: Launch meltano with batect via ```batect melt````
-3. OR install meltano with ```pip install meltano```
+```batect launch_mock``` for instance will launch two docker containers one with a mock AWS S3 endpoint and one with a postgres database.
 
-Then run ```meltano install``` to install the two plugins, the S3 extractor and the PostgreSQL loader as specified
-in the [meltano.yml](new_project/meltano.yml):
+Batect automatically tears down & cleans up after the task finishes.
+
+### Run the project
+
+1. Launch the mock endpoints in a separate terminal window ```./batect launch_mock```.
+
+2. Launch meltano with batect via ```./batect melt```.
+2.1. Alternatively you can use your local meltano, installed with ```pip install meltano```. (The mocks will still work.)
+
+3. Run ```meltano install``` to install the two plugins, the S3 extractor and the PostgreSQL loader as specified in the [meltano.yml](new_project/meltano.yml).
+
+Here is an extract from the [meltano.yml](new_project/meltano.yml):
 
 ```yaml
 ...
@@ -67,4 +80,16 @@ plugins:
       dbname: demo
 ```
 
-Finally, run ```meltano run tap-s3-csv target-postgres``` to execute the extraction and loading. Check inside the local database afterwards to see that your data has arrived.
+4. Finally, run ```meltano run tap-s3-csv target-postgres``` to execute the extraction and loading. 
+
+5. Check inside the local database afterwards to see that your data has arrived, use the connection data below.
+
+```yaml
+...
+      host: localhost
+      port: 5432
+      user: admin
+      password: password
+      dbname: demo
+```
+
