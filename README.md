@@ -15,9 +15,9 @@ This repo is not a tutorial or an extensive walk-through. It contains some bad p
 We're focusing on simplicity here!
 
 ## What's in this repo?
-This repo contains an ```AWS S3``` mock with three CSV files inside. One for the customers, one for the orders and one for the payments.
+This repo contains an ```AWS S3``` mock with one CSV file inside. The raw customer data.
 
-The meltano project extracts these three CSVs using the tap-s3-csv ```extractor```, and loads them into the ```PostgreSQL``` database using
+The meltano project extracts this CSV using the tap-s3-csv ```extractor```, and loads them into the ```PostgreSQL``` database using
 the loader ```target-postgres```.
 
 ![EL Meltano Diagram](el_meltano_diagram.jpg)
