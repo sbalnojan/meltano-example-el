@@ -32,7 +32,7 @@ The repository has a few configured "batect tasks" which essentially all spin up
 
 Run  ```./batect --list-tasks ``` to see the list of commands.
 
-```batect launch_mock``` for instance will launch two docker containers one with a mock AWS S3 endpoint and one with a postgres database.
+```./batect launch_mock``` for instance will launch two docker containers one with a mock AWS S3 endpoint and one with a postgres database.
 
 Batect automatically tears down & cleans up after the task finishes.
 
