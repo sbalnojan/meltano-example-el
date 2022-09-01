@@ -1,4 +1,4 @@
-# Meltano Example Projects: Extract & Load (EL) (Jaffle Shop) Sandbox
+# Meltano Example Projects: Extract from S3 & Load into Postgres Sandbox
 This project extends the ```jaffle shop``` sandbox project created by [DbtLabs](https://github.com/dbt-labs/jaffle_shop) for the data built tool ```dbt```. This meltano project sources one CSV file from AWS S3 and puts them into one table inside a Postgres database.
 
 ![EL Meltano Run](Meltano_EL.gif)
